@@ -11,7 +11,7 @@ exports.getAllUsers = (req, res, next) => {
 
 exports.userInfo = (req, res, next) => {
     const userId = req.params.id;
-    console.log(req.params);
+    //console.log(req.params);
 
     if (!ObjectID.isValid(userId)) {
         return res.status(401).json({ message: 'Id unknown : ' + userId});

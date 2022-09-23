@@ -2,6 +2,7 @@ const PostModel = require('../models/post.model.js');
 const UserModel = require('../models/user.model.js');
 const ObjectID = require('mongoose').Types.ObjectId;
 const fs = require('fs');
+const multer = require('../middleware/multer-config.post.js');
 
 
 //retourne tout les post 
@@ -14,12 +15,18 @@ exports.getAllPost = (req, res, next) => {
 //enregistrer un post
 exports.createPost = (req, res, next) => {
     const postObject =  req.body;
+    let imageUrl = '' ;
+    if(req.file && req.file.filename) {
+    imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`
+    }
+   console.log('imageUrl',imageUrl)
     console.log(postObject);
     const post = new PostModel({
         posterId: postObject.posterId,
         message: postObject.message,
         video: postObject.video,
-        picture: `${req.protocol}://${req.get('host')}/upload/${req.file.filename}`,
+
+        picture: imageUrl,
         likes: 0,
         dislikes: 0,
         likers: [],
@@ -36,8 +43,8 @@ exports.modifyPost = (req, res, next) => {
 
     const postId = req.params.id;
     const modifyMsg = { message: req.body.message };
-    const modifyImg = { picture: req.file.filename };
-    console.log(modifyImg);
+    //const modifyImg = { picture: req.file.filename };
+    
     
     PostModel.findOne({_id: postId})
         .then((post) => {
@@ -47,7 +54,7 @@ exports.modifyPost = (req, res, next) => {
                 PostModel.findByIdAndUpdate(
                     postId, 
                     { $set: modifyMsg },
-                    { $set: modifyImg },
+                    //{ $set: modifyImg },
                     { new: true },
                 )
                 .then(() => res.status(200).json({message : 'Objet modifié!'}))
@@ -82,28 +89,33 @@ exports.deletePost = (req, res, next) => {
 //liker un poste
 exports.likePost = (req, res, next) => {
     const userId = req.body.id;
-    const postId = req.params.id
+    const postId = req.params.id ; 
+    console.log('userId',userId) ;
+    console.log('postId',postId) ;
+
 
     if (!ObjectID.isValid(postId)) {
         res.status(401).json({message: 'Non-autorisé'});
     } 
     
     try {
-        PostModel.findByIdAndUpdate(
-            postId , 
-            { $addToSet: { likers: userId }},
-            { new: true },
-        )
+      
+        PostModel.findOneAndUpdate({_id: postId}, {$addToSet:{  likers:[userId]}}, {new: true}, (err, doc) => {
+        if (err) {
+            console.log("Something wrong when updating data!");
+        }
+
+        UserModel.findOneAndUpdate({_id: userId}, {$addToSet:{  likes:[postId]}}, {new: true}, (err, doc) => {
+        if (err) {
+            res.status(400).json({ err })
+        }
+    
+        res.status(200).json({ message: `J'aime le poste` })
+
+        });
+        });
         
-
-        UserModel.findByIdAndUpdate(
-            userId, 
-            { $addToSet: { likes: postId }},
-            { new: true },
-        )
-        .then(() => res.status(200).json({ message: `J'aime le poste` }))
-        .catch((error) => res.status(400).json({ error }))
-
+ 
     } catch (error) {
         return res.status(400).json({ error });
     }
@@ -116,24 +128,26 @@ exports.unlikePost = (req, res, next) => {
 
     if (!ObjectID.isValid(postId)) {
         res.status(401).json({message: 'Non-autorisé'});
-    } 
-     
+    }
+    
     try {
-        PostModel.findByIdAndUpdate(
-            postId , 
-            { $pull: { likers: userId }},
-            { new: true },  
-        );
-       
+      
+        PostModel.findOneAndUpdate({_id: postId}, {$pull:{  likers:[userId]}}, {new: true}, (err, doc) => {
+        if (err) {
+            console.log("Something wrong when updating data!");
+        }
 
-        UserModel.findByIdAndUpdate(
-            userId, 
-            { $pull: { likes: postId }},
-            { new: true },   
-        )
-        .then(() => res.status(200).json({ message: `J'aime pas le poste` }))
-        .catch((error) => res.status(400).json({ error }))
+        UserModel.findOneAndUpdate({_id: userId}, {$pull:{  likes:[postId]}}, {new: true}, (err, doc) => {
+        if (err) {
+            res.status(400).json({ err })
+        }
+    
+        res.status(200).json({ message: `J'aime pas le poste` })
         
+        });
+        });
+        
+ 
     } catch (error) {
         return res.status(400).json({ error });
     }
@@ -141,7 +155,7 @@ exports.unlikePost = (req, res, next) => {
 
 //ajouter un commentaire
 exports.commentPost = (req, res, next) => {
-    const user = req.body;
+    const userData = req.body;
     const postId = req.params.id
 
     if (!ObjectID.isValid(postId)) {
@@ -153,9 +167,9 @@ exports.commentPost = (req, res, next) => {
             postId , 
             { $push: { 
                 comments: {
-                    commenterId: user.commenterId,
-                    commenterPseudo: user.commenterPseudo, 
-                    text: user.text, 
+                    commenterId: userData.commenterId,
+                    commenterPseudo: userData.commenterPseudo, 
+                    text: userData.text, 
                     timestamp: new Date().getTime(),  
                 },
             },
