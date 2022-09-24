@@ -1,17 +1,15 @@
-//importaion des dépendances
 const jwt = require('jsonwebtoken');
 
-//exportaion du module
 module.exports = (req, res, next) => {
-   try {
-       const token = req.headers.authorization.split(' ')[1];
-       const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
-       const userId = decodedToken.userId;
-       req.auth = {
-           userId: userId
-       };
-	next();
-   } catch(error) {
-       res.status(401).json({ error });
-   }
+  try {
+    const token = req.headers.authorization.split(' ')[1];
+    const decodedToken = jwt.verify(token, 'RANDOM_TOKEN_SECRET'); 
+    const { id } = decodedToken;
+    req.auth = {
+      id,
+    };
+    next();
+  } catch {
+    res.status(401).json({ message: `Echec de l'authentification` });
+  }
 };

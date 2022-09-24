@@ -27,9 +27,9 @@ app.use('/api/user', userRoutes);
 app.use('/api/post', postRoutes);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-/*app.use((error, req, res, next) => {
+app.use((error, req, res, next) => {
     console.log('This is the rejected field ->', error.field);
-});*/
+});
 
 
 //Server

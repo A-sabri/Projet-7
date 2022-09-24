@@ -12,24 +12,23 @@ const postCtrl = require('../controllers/post.controller.js');
 
 
 //Post
-router.get('/', postCtrl.getAllPost);
-router.post('/', multer, postCtrl.createPost);
-router.put('/:id', multer, postCtrl.modifyPost);
-router.delete('/:id', postCtrl.deletePost);
+router.get('/', auth, postCtrl.getAllPost);
+router.post('/', auth, multer, postCtrl.createPost);
+router.put('/:id', auth, multer, postCtrl.modifyPost);
+router.delete('/:id', auth, postCtrl.deletePost);
 
 //like post
-router.patch('/like/:id', postCtrl.likePost);
-router.patch('/unlike/:id', postCtrl.unlikePost);
+router.patch('/like/:id', auth, postCtrl.likePost);
+router.patch('/unlike/:id', auth, postCtrl.unlikePost);
 
 //comments post
-router.patch('/comment/:id', postCtrl.commentPost);
-router.patch('/edit-comment/:id', postCtrl.editCommentPost);
-router.patch('/delet-comment/:id', postCtrl.deletCommentPost);
+router.patch('/comment/:id', auth, postCtrl.commentPost);
+router.patch('/edit-comment/:id', auth, postCtrl.editCommentPost);
+router.patch('/delet-comment/:id', auth, postCtrl.deletCommentPost);
 
 
 
-//retourne un objet unique 
-//router.get('/:id', auth, postCtrl.getOnePost);
+
 
 
 

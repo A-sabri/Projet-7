@@ -16,12 +16,11 @@ router.post('/login', authCtrl.login);
 router.get('/logout', authCtrl.logout );
 
 //user display
-router.get('/', userCtrl.getAllUsers);
-router.get('/:id', userCtrl.userInfo);
-router.put('/:id', multer, userCtrl.updateUser);
-router.delete('/:id', userCtrl.deletUser);
-router.patch('/follow/:id', userCtrl.follow);
-router.patch('/unfollow/:id', userCtrl.unfollow);
+router.get('/', auth, userCtrl.getAllUsers);
+router.get('/:id', auth, userCtrl.userInfo);
+router.put('/:id', auth, multer, userCtrl.updateUser);
+router.delete('/:id', auth, userCtrl.deletUser);
+
 
 
 

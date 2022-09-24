@@ -132,12 +132,12 @@ exports.unlikePost = (req, res, next) => {
     
     try {
       
-        PostModel.findOneAndUpdate({_id: postId}, {$pull:{  likers:[userId]}}, {new: true}, (err, doc) => {
+        db.PostModel.findOneAndUpdate({_id: postId}, {$pull:{ likers:[userId]}}, {new: true}, (err, doc) => {
         if (err) {
             console.log("Something wrong when updating data!");
         }
 
-        UserModel.findOneAndUpdate({_id: userId}, {$pull:{  likes:[postId]}}, {new: true}, (err, doc) => {
+        db.UserModel.findOneAndUpdate({_id: userId}, {$pull:{ likes:[postId]}}, {new: true}, (err, doc) => {
         if (err) {
             res.status(400).json({ err })
         }
