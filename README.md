@@ -2,7 +2,7 @@
 
 GROUPOMANIA
 
-Ceci est un rojet visant a la création d'un réseau social d'entreprise : Groupomania
+Ceci est un projet visant a la création d'un réseau social d'entreprise : Groupomania
 
 cette aplication peut etre considérer comme un projet dit MERN, il utilise les technologie MongoDB, Express(js), React(js) et Node(js)
 
