@@ -17,8 +17,10 @@ const postSchema = mongoose.Schema({
               commenterPseudo: String,
               text: String,
               timestamps: Number,
+              commenterPic: { type: String, default: "./uploads/profil/random-user.png" },
           }
       ],
+
       require: true, 
     },
   },
