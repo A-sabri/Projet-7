@@ -1,0 +1,36 @@
+.input-post{
+    position: relative;
+
+    .header-post{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .header-post-left{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    }
+
+    >textarea{
+        background-color: $color-8;
+        width: 100%;
+        height: 100px;
+        margin: 2em 0;
+        padding: 15px;
+        border-radius: 1em;
+        border: 1px solid $color-7;
+    }
+
+    .upload-pic{
+        display: flex;
+        flex-direction: column;
+    }
+
+    button{
+        position: absolute;
+        right: 2em;
+        bottom: 2em;
+    }
+}

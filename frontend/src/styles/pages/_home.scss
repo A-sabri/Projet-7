@@ -1,0 +1,49 @@
+.home-container{
+    display: flex;
+    justify-content: space-around;
+    padding: 2em 0;
+
+    >div{
+        width: 20%;
+        border-radius: 1em;
+        background-color: transparent;
+        
+    }
+
+    >div:nth-child(2){
+        width: 50%;
+        height: 100vh;
+        
+        @media only screen and (max-width: 950px) {
+            width: 90%;
+        }
+
+        
+    }
+
+    .post-container, .info-container {
+        display: flex;
+        flex-direction: column;
+        padding: 1em;
+    
+        >div{
+            border-radius: 1em;
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.4);
+            background: white;
+            //background: linear-gradient(351deg, rgba(255,215,215,1) 49%, rgba(253,45,1,1) 93%);
+            padding: 20px;
+            margin: 1em 0;
+        }
+        
+    }
+
+    @media only screen and (max-width: 950px) {
+        
+        .info-container, .trends-container{
+            display: none;
+        }
+
+       
+    }
+
+}

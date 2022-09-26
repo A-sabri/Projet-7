@@ -1,0 +1,28 @@
+.profil-container{
+    margin: 4em;
+    padding: 4em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+    border-radius: 1em;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.4);
+    background: white;
+
+    .button{
+        margin: 0 15px;
+
+        &:hover {
+            background-color: $green;
+        }
+    }
+
+
+    .red{
+        background-color: $color-1;
+
+        &:hover {
+            background-color: $color-1;   
+        }
+    }
+}

@@ -1,0 +1,19 @@
+.link{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+    img{
+        width: 4em;
+        margin: 15px;
+        padding: 7px;
+
+        &:hover{
+            color: $color-1;
+            border-top: 5px solid $color-1 ;
+            border-radius: 10%;
+            padding: 5px;
+        }
+    }
+
+}
