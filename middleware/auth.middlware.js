@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken');
+const UserModel = require("../models/user.model");
 
 module.exports = (req, res, next) => {
   try {
@@ -13,3 +14,9 @@ module.exports = (req, res, next) => {
     res.status(401).json({ message: `Echec de l'authentification` });
   }
 };
+
+module.exports.checkUser = (req, res, next) => {
+  
+  
+};
+

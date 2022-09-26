@@ -14,11 +14,13 @@ const userSchema = mongoose.Schema({
 
   bio: { type: String, max: 1024 },
   
-  likes: { type: [String] }
+  likes: { type: [String] },
+  isAdmin : {type : Boolean,default: false}
 
   },
 
-  { timestamps: true }
+  { timestamps: true },
+  
 );
 
 //plugin pour les mots de pass

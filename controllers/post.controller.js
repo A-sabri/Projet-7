@@ -122,36 +122,36 @@ exports.likePost = (req, res, next) => {
 };
 
 //unliker un poste
-exports.unlikePost = (req, res, next) => {
+exports.unlikePost = async (req, res) => {
     const userId = req.body.id;
-    const postId = req.params.id
+    const postId = req.params.id ; 
+    console.log('userId',userId) ;
+    console.log('postId',postId) ;
 
-    if (!ObjectID.isValid(postId)) {
-        res.status(401).json({message: 'Non-autorisé'});
-    }
-    
+    if (!ObjectID.isValid(postId))
+    return res.status(400).send("ID unknown : " + postId);
+  
     try {
-      
-        db.PostModel.findOneAndUpdate({_id: postId}, {$pull:{ likers:[userId]}}, {new: true}, (err, doc) => {
-        if (err) {
-            console.log("Something wrong when updating data!");
-        }
-
-        db.UserModel.findOneAndUpdate({_id: userId}, {$pull:{ likes:[postId]}}, {new: true}, (err, doc) => {
-        if (err) {
-            res.status(400).json({ err })
-        }
-    
-        res.status(200).json({ message: `J'aime pas le poste` })
-        
-        });
-        });
-        
- 
-    } catch (error) {
-        return res.status(400).json({ error });
+      await PostModel.findByIdAndUpdate(
+        postId,
+        {
+          $pull: { likers: userId },
+        },
+        { new: true })
+        res.status(200).json({ message: `Je n'aime le poste` })
+         
+  
+      await UserModel.findByIdAndUpdate(
+        userId,
+        {
+          $pull: { likes: postId },
+        },
+        { new: true })
+            
+    } catch (err) {
+        return res.status(400).send(err);
     }
-};
+  };
 
 //ajouter un commentaire
 exports.commentPost = (req, res, next) => {

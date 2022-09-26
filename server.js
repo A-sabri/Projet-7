@@ -3,6 +3,7 @@ require('dotenv').config({path: './config/.env'})
 require('./config/db.js');
 const app = express();
 const path = require('path');
+const {checkUser, requireAuth} = require('./middleware/auth.middlware');
 
 //importaion des routes 
 const postRoutes = require('./routes/post.routes.js');
@@ -22,14 +23,13 @@ app.use((req, res, next) => {
 });
 
 
-
 //routes
 app.use('/api/user', userRoutes);
 app.use('/api/post', postRoutes);
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.use((error, req, res, next) => {
-    console.log('This is the rejected field ->', error.field);
+    console.log('This is the rejected field ->', error);
 });
 
 
