@@ -4,7 +4,7 @@ import InputPost from '../components/InputPost';
 import Post from '../components/Post';
 import UserInfo from '../components/UserInfo';
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+
 
 
 const Home = () => {
@@ -12,7 +12,6 @@ const Home = () => {
   const [data, setData] = useState([]);
   const [displayData, setDisplayData] = useState(true)
   const token =  localStorage.getItem( 'token' );
-  const navigate  = useNavigate();
   
   
   

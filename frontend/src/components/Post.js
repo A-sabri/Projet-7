@@ -45,7 +45,7 @@ const Post = ({ post }) => {
         };
         userData();   
         getCurrentUser() ;    
-    },[token, post.posterId]);
+    },[token, post.posterId, userId]);
 
     // On affiche les bouton (modifier/suprimmer) sur les post de l'utilisateur
     useEffect(() => {
@@ -133,11 +133,10 @@ const Post = ({ post }) => {
                 <div className="header-post-center">
                     <div className="date">
                         <h3>{user.pseudo}</h3>
-                        <h1></h1>
                         <span>{dateParser(post.createdAt)}</span>
                     </div>
                 </div>
-                    {editDeletBtn || currentUser.isAdmin &&
+                    {(editDeletBtn || currentUser.isAdmin) &&
                         <div className="edit-post"> 
                             <button className="edit-post-btn"><img src="/img/icons/edit.svg" alt="" onClick={() => setUpdate(!update)}/></button> 
                             <button className="delet-post-btn"><img src="./img/icons/trash.svg" alt=""  onClick={() => deletItem()}/></button>
